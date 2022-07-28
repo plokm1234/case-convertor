@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Case Converter</title>
+</head>
+<body>
+<div>
+    <div class="title">Case Converter</div>
+    <textarea id="text"></textarea>
+    <button id="upper-case">Upper Case</button>
+    <button id="lower-case">Lower Case</button>
+    <button id="proper-case">Proper Case</button>
+    <button id="sentence-case">Sentence Case</button>
+    <button id="save-text-file">Save</button>
+</div>
+<script>
+    let upper = document.getElementById("upper-case")
+    let lower = document.getElementById("lower-case")
+    let proper = document.getElementById("proper-case")
+    let sentence = document.getElementById("sentence-case")
+
+    upper.addEventListener("click", () => {
+        let textBox = document.getElementById("text");
+        textBox.value = textBox.value.toUpperCase();
+
+
+    })
+    lower.addEventListener("click", () => {
+        let textBox = document.getElementById("text")
+        textBox.value = textBox.value.toLowerCase();
+    })
+    proper.addEventListener("click", () => {
+        let textBox = document.getElementById("text");
+        let result = textBox.value.split(" ")
+        result.forEach((word, index) => {
+            result[index] = word.charAt(0).toUpperCase() + word.slice(1);
+        })
+        textBox.value = result.join(" ");
+    })
+
+    sentence.addEventListener("click", () => {
+        let textBox = document.getElementById("text");
+        let result = textBox.value.toLowerCase().split('. ')
+        let newArray = []
+        for (let sentence of result) {
+            let modifiedSentence = sentence.charAt(0).toUpperCase().concat(sentence.slice(1));
+            newArray.push(modifiedSentence);
+        }
+
+        textBox.value = newArray.join('. ');
+    })
+
+    document.getElementById("save-text-file").addEventListener('click', () => download("text.txt", document.getElementById("text").value))
+
+    function download(filename, text) {
+        let element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
+
+
+</script>
+</body>
+</html>
